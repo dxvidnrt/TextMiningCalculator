@@ -15,9 +15,10 @@ def main():
     inverted_index_doc2 = "Recreational fishing is an activity with important social implications."
     inverted_index_doc3 = "Introduction to social protection benefits for old age."
     inverted_index_doc4 = "Introduction to how lake trout fishing works."
+    stopwords = "an, and, are, for, how, in, is, not, or, the, these, this, to, with"
 
     InvertedIndex.inverted_index_representation([inverted_index_doc1, inverted_index_doc2, inverted_index_doc3,
-                                                inverted_index_doc4])
+                                                inverted_index_doc4], stopwords=stopwords, suffix_s_removal=True)
 
 
 
