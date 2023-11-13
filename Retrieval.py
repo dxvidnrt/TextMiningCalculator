@@ -25,5 +25,77 @@ def bm_25(doc_term_freq: dict[str, int], query: List[Tuple[str, int]], docs_tota
     print("The retrieval score of BM25 is: "+str(res))
 
 
+def count_ordered_bigrams(term_1: str, term_2: str, document: List[str]) -> str:
+    """Counts ordered bigrams for the pair (term_1, term_2) in document.
+
+    :returns
+        Bigrams count"""
+
+    count = 0
+    for j, d_term in enumerate(document[:-1]):
+        if term_1 == d_term and term_2 == document[j+1]:
+            count += 1
+    print(f"There are {count} ordered bigrams.")
 
 
+def count_unordered_bigrams(term_1: str, term_2:str, document: List[str]):
+    count = 0
+    for i, d_term in enumerate(document[:-1]):
+        for j, d_term2 in enumerate(document[i+1:]):
+            if term_1 == d_term and term_2 == d_term2:
+                count += 1
+    print(f"There are {count} unordered bigrams.")
+
+
+def precision_at_k(docs: List[int], total_relevant: int, k: int):
+    """
+    Calculate Precision@k
+    :param docs: List of documents from highest rank to lowest. 1 means relevant, 0 non-relevant.
+    :param total_relevant: number of total existing relevant documents
+    :param k: first k documents that are looked at.
+    """
+    if k is None:
+        k = len(docs)
+    relevant = 0
+    for i, value in enumerate(docs[:k]):
+        relevant += value
+    print(f"The precision@{k} score is: {float(relevant)/k}")
+
+
+def _precision_at_k(docs: List[int], total_relevant: int, k: int):
+    """
+    Calculate Precision@k
+    :param docs: List of documents from highest rank to lowest. 1 means relevant, 0 non-relevant.
+    :param total_relevant: number of total existing relevant documents
+    :param k: first k documents that are looked at.
+    """
+    if k is None:
+        k = len(docs)
+    relevant = 0
+    for i, value in enumerate(docs[:k]):
+        relevant += value
+    return float(relevant)/k
+
+
+def recall_at_k(docs: List[int], total_relevant: int, k: int):
+    """
+    Calculate Recall@k.
+    If only Recall is asked, set k to length of document or set to None.
+    :param docs: List of documents from highest rank to lowest. 1 means relevant, 0 non-relevant.
+    :param total_relevant: number of total existing relevant documents
+    :param k: first k documents that are looked at.
+    """
+    if k is None:
+        k = len(docs)
+    relevant = 0
+    for i, value in enumerate(docs[:k]):
+        relevant += value
+    print(f"The precision@{k} score is: {float(relevant)/total_relevant}")
+
+
+def average_precision(docs: List[int], total_relevant: int):
+    precision = 0
+    for i, value in enumerate(docs):
+        if value:
+            precision += _precision_at_k(docs, total_relevant, i+1)
+    print(f"The Average Precision is {float(precision)/total_relevant}")

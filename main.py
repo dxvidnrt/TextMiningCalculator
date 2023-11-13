@@ -26,6 +26,14 @@ def main():
     ClassificationEvaluation.one_vs_rest_classification([1, 1, 1, 1])
     ClassificationEvaluation.one_vs_one_classification([1, 1, 0, 1, 0, 1])
 
+    # region Ranking Evaluation
+    docs = [1, 0, 0, 1, 0, 1, 0, 0, 0, 0, 1, 0]
+    # endregion
+    Retrieval.precision_at_k(docs, 6, 10)
+    Retrieval.recall_at_k(docs, 6, None)
+    Retrieval.average_precision(docs, 6)
+
+
     # region BM25 Retrieval
     doc = {
         "T1": 3,
@@ -38,6 +46,14 @@ def main():
     query = [("T2", 50), ("T2", 50), ("T5", 100)]
     # endregion
     Retrieval.bm_25(doc, query, 1000, 50, 1.25, 0.8)
+
+    # region Bigrams
+    term_1 = "A"
+    term_2 = "B"
+    doc = ["A", "B", "C", "A", "B"]
+    # endregion
+    Retrieval.count_ordered_bigrams(term_1, term_2, doc)
+    Retrieval.count_unordered_bigrams(term_1, term_2, doc)
 
 
 if __name__ == "__main__":
