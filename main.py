@@ -1,6 +1,8 @@
 import ClassificationEvaluation
 import InvertedIndex
 import Retrieval
+import PageRanker
+import numpy as np
 
 
 def main():
@@ -54,6 +56,12 @@ def main():
     # endregion
     Retrieval.count_ordered_bigrams(term_1, term_2, doc)
     Retrieval.count_unordered_bigrams(term_1, term_2, doc)
+
+    # region PageRanker
+    graph_edges = [("A", "B"), ("B", "C"), ("C", "E"), ("E", "D"), ("D", "B"), ("E", "F")]
+    # endregion
+    PageRanker.pagerank(graph_edges, q=0.4, iterations=3)
+
 
 
 if __name__ == "__main__":
