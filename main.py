@@ -7,7 +7,7 @@ import Similarity
 import NaiveBayes
 import RocchioFeedback
 import DiscountedCumulativeGain
-
+import EvaluationMeasures
 
 def main():
     # region Classification Evolution
@@ -156,6 +156,41 @@ def main():
     # endregion
     #DiscountedCumulativeGain.dcg(relevances, k)
     #DiscountedCumulativeGain.ndcg(system_rankings['q3'], ground_truth['q3'], k)
+
+    #region Evaluation Measure
+    ranking_A_q1 = [1,2,4,5,3,6,9,8,10,7]
+    ranking_A_q2 = [1,2,4,5,3,9,8,6,10,7]
+    ranking_A_q3 = [1,7,4,5,3,6,9,8,10,2]
+
+
+    ranking_B_q1 = [2,4,3,10,5,6,7,8,9,1]
+    ranking_B_q2 = [5,6,4,1,7,8,9,10,3,2]
+    ranking_B_q3 = [2,4,3,7,5,6,1,8,9,10]
+
+
+    ground_truth_1 = [1,3]
+    ground_truth_2 = [2,4,5,6]
+    ground_truth_3 = [7]
+
+    EvaluationMeasures.precision(ranking_A_q3, ground_truth_3, 5)
+    EvaluationMeasures.precision(ranking_A_q3, ground_truth_3, 10)
+
+    EvaluationMeasures.average_precision(ranking_A_q3, ground_truth_3)
+
+    EvaluationMeasures.reciprocal_rank(ranking_A_q3, ground_truth_3)
+
+    EvaluationMeasures.mean_calculation([EvaluationMeasures._precision(ranking_A_q1, ground_truth_1, 5),
+                                       EvaluationMeasures._precision(ranking_A_q2, ground_truth_2, 5),
+                                       EvaluationMeasures._precision(ranking_A_q3, ground_truth_3, 5)])
+
+    EvaluationMeasures.mean_calculation([EvaluationMeasures._average_precision(ranking_A_q1, ground_truth_1),
+                                         EvaluationMeasures._average_precision(ranking_A_q2, ground_truth_2),
+                                         EvaluationMeasures._average_precision(ranking_A_q3, ground_truth_3)])
+
+    EvaluationMeasures.mean_calculation([EvaluationMeasures._reciprocal_rank(ranking_A_q1, ground_truth_1),
+                                         EvaluationMeasures._reciprocal_rank(ranking_A_q2, ground_truth_2),
+                                         EvaluationMeasures._reciprocal_rank(ranking_A_q3, ground_truth_3)])
+
 
 if __name__ == "__main__":
     main()
