@@ -2,6 +2,44 @@ import math
 from typing import List, Tuple, Dict
 
 
+def _get_tf_vector(doc_term_vector: List[int]) -> List[float]:
+    """Computes the normalized term frequency vector from a raw term-frequency vector."""
+    sum_freq = sum(doc_term_vector)
+    if sum_freq == 0:  # This would mean that the document has no content.
+        return None
+    tf_vector = [freq / sum_freq for freq in doc_term_vector]
+    return tf_vector
+
+
+def get_tf_vector(doc_term_vector: List[int]) -> List[float]:
+    print(get_tf_vector(doc_term_vector))
+
+
+def _get_term_idf(doc_term_matrix: List[List[int]], term_index: int) -> float:
+    """Computes the IDF value of a term, given by its index, based on a document-term matrix."""
+    N = len(doc_term_matrix)
+    n_t = sum([1 if doc_freqs[term_index] > 0 else 0 for doc_freqs in doc_term_matrix])
+    return math.log10(N / n_t)
+
+
+def _get_term_idf(doc_term_matrix: List[List[int]], term_index: int) -> float:
+    print(_get_term_idf(doc_term_matrix))
+
+
+def _get_tfidf_vector(doc_term_matrix: List[List[int]], doc_index: int) -> List[float]:
+    """Computes the TFIDF vector from a raw term-frequency vector."""
+    tf_vector = get_tf_vector(doc_term_matrix[doc_index])
+    tfidf_vector = []
+    for term_index, tf in enumerate(tf_vector):
+        idf = _get_term_idf(doc_term_matrix, term_index)
+        tfidf_vector.append(tf * idf)
+    return tfidf_vector
+
+
+def _get_tfidf_vector(doc_term_matrix: List[List[int]], doc_index: int) -> List[float]:
+    print(_get_tfidf_vector(doc_term_matrix))
+
+
 def bm_25(doc_term_freq: Dict[str, int], query: List[Tuple[str, int]], docs_total: int, doc_len_avg: int, k_1: float, b: float):
     """
     Calculating bm_25 with formula:
