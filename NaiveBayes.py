@@ -10,16 +10,8 @@ def prior_prob(document_term_matrix, y: str):
     Prints:
         The probability P(y).
     """
-  all_same_length = len(set(map(len, document_term_matrix.values()))) == 1 if document_term_matrix else True
-  print('' if all_same_length else "document term matrix is incorrect, not all term frequencies are defined")
 
-  temp_result = 0
-
-  for element in document_term_matrix:
-    if document_term_matrix[element][0] == y:
-      temp_result += 1
-
-  print('prior prob: ', temp_result/len(document_term_matrix))
+  print('prior prob: ', _prior_prob(document_term_matrix, y))
 
 def evidence(document_term_matrix, terms: List[int]):
   """ Computes the evidence for a term (same for all classes)
@@ -33,15 +25,7 @@ def evidence(document_term_matrix, terms: List[int]):
     The evidence P('t1, ..., tn')
   """
 
-  all_same_length = len(set(map(len, document_term_matrix.values()))) == 1 if document_term_matrix else True
-  print('' if all_same_length else "document term matrix is incorrect, not all term frequencies are defined")
-
-  temp_result = 0
-  for element in document_term_matrix:
-    if all(document_term_matrix[element][term] > 0 for term in terms):
-      temp_result += 1
-
-  print('term evidence: ', temp_result / len(document_term_matrix))
+  print('term evidence: ', _evidence(document_term_matrix, terms))
 
 def class_conditional_probability(document_term_matrix, terms: List[int], y: str, smoothing_x: int, smoothing_y: int):
   """ Calculates the class conditional probability for the given list of terms and given class
@@ -56,16 +40,8 @@ def class_conditional_probability(document_term_matrix, terms: List[int], y: str
   Prints: P('t1, ...., tn' | y)
 
   """
-  all_same_length = len(set(map(len, document_term_matrix.values()))) == 1 if document_term_matrix else True
-  print('' if all_same_length else "document term matrix is incorrect, not all term frequencies are defined")
 
-  result = 1
-
-  for term in terms:
-
-    result *= term_prob(document_term_matrix, term, y, smoothing_x, smoothing_y)
-
-  print('class conditional probability: ', result)
+  print('class conditional probability: ', _class_con_probability(document_term_matrix, terms, y, smoothing_x, smoothing_y))
 
 def term_prob(document_term_matrix, term: int, y: str, smoothing_x: int, smoothing_y: int):
   """ Calculates the term probability for a given term and class
@@ -85,7 +61,6 @@ def term_prob(document_term_matrix, term: int, y: str, smoothing_x: int, smoothi
   numerator = 0
   denominator = 0
 
-  doc_found = False
   for element in document_term_matrix:
 
     if document_term_matrix[element][0] == y:
