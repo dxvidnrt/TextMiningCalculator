@@ -1,8 +1,8 @@
 import math
-from typing import List, Tuple
+from typing import List, Tuple, Dict
 
 
-def bm_25(doc_term_freq: dict[str, int], query: List[Tuple[str, int]], docs_total: int, doc_len_avg: int, k_1: float, b: float):
+def bm_25(doc_term_freq: Dict[str, int], query: List[Tuple[str, int]], docs_total: int, doc_len_avg: int, k_1: float, b: float):
     """
     Calculating bm_25 with formula:
     $\text{BM25} = \sum_{t \in q} \frac{f_{t,d} \cdot (1 + k_1)}{(f_{t,d} + k_1 \cdot (1 - b + b \cdot
