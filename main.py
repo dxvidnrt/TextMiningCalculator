@@ -2,7 +2,7 @@ import ClassificationEvaluation
 import InvertedIndex
 import Retrieval
 import PageRanker
-import numpy as np
+import Similarity
 
 
 def main():
@@ -57,11 +57,16 @@ def main():
     Retrieval.count_ordered_bigrams(term_1, term_2, doc)
     Retrieval.count_unordered_bigrams(term_1, term_2, doc)
 
+    # region Similarity
+    term_vector_1 = [1, 1, 0, 2]
+    term_vector_2 = [1, 1, 2, 0]
+    # endregion
+    Similarity.jaccard(term_vector_1, term_vector_2)
+
     # region PageRanker
     graph_edges = [("A", "B"), ("B", "C"), ("C", "E"), ("E", "D"), ("D", "B"), ("E", "F")]
     # endregion
     PageRanker.pagerank(graph_edges, q=0.4, iterations=3)
-
 
 
 if __name__ == "__main__":
