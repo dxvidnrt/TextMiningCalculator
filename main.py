@@ -6,6 +6,7 @@ import PageRanker
 import Similarity
 import NaiveBayes
 import RocchioFeedback
+import DiscountedCumulativeGain
 
 
 def main():
@@ -128,6 +129,33 @@ def main():
     gamma = 0.2
     # endregion
     #RocchioFeedback.rocchio_feedback(VOCAB, DT_MATRIX, Q, D_POS, D_NEG, alpha, beta, gamma)
+
+    #region Discounted Cumulative Gain
+    # Relevances: List with the ground truth relevance levels corresponding to a ranked list of documents (rel_i)
+    relevances = [4, 1, 3]
+
+    # Rank cut-off
+    k = 5
+
+    # System Ranking: key is the query id, value is the list of document ids (ranked from most to least relevant)
+    system_rankings = {
+        "q1": [2, 1, 3, 4, 5, 6, 10, 7, 9, 8],
+        "q2": [1, 2, 9, 4, 5, 6, 7, 8, 3, 10],
+        "q3": [1, 7, 4, 5, 3, 6, 9, 8, 10, 2]
+    }
+
+    # Ground Truth: key is the query id, values is a dictionary (doc id, relevance)
+    # Relevance is measured on a 3-point scale: (0: non-relevant, 1: poor, 2: good, 3: excellent)
+    # Documents not listed here are non-relevant
+    ground_truth = {
+        "q1": {4: 3, 1: 2, 2: 1},
+        "q2": {3: 3, 4: 3, 1: 2, 2: 1, 8: 1},
+        "q3": {1: 3, 4: 3, 7: 2, 5: 2, 6: 1, 8: 1}
+    }
+
+    # endregion
+    #DiscountedCumulativeGain.dcg(relevances, k)
+    #DiscountedCumulativeGain.ndcg(system_rankings['q3'], ground_truth['q3'], k)
 
 if __name__ == "__main__":
     main()
