@@ -64,6 +64,7 @@ def main():
     term_vector_2 = [1, 1, 2, 0]
     # endregion
     # Similarity.jaccard(term_vector_1, term_vector_2)
+    # Similarity.cosine(term_vector_1, term_vector_2)
 
     # region PageRanker
     graph_edges = [("A", "B"), ("B", "C"), ("C", "E"), ("E", "D"), ("D", "B"), ("E", "F")]
@@ -76,8 +77,6 @@ def main():
     # endregion
     # CrossValidator.create_folds(instances, k)
 
-
-def naiveBayes():
     # region Naive Byes
     document_term_matrix = {}
     # document_term_matrix[' document name '] = [' class name as str ' , frequency of term 1, ..., frequency of term n]
@@ -88,17 +87,15 @@ def naiveBayes():
     document_term_matrix['doc5'] = ['c2', 1, 0, 0, 3, 1, 2, 0]
     document_term_matrix['doc6'] = ['c1', 0, 1, 1, 0, 3, 4, 1]
     # endregion
-
     # P(c3) (document_term_matrix, 'class name')
-    NaiveBayes.prior_prob(document_term_matrix, 'c3')
+    #NaiveBayes.prior_prob(document_term_matrix, 'c3')
     # P('t1, ..., tn') (document_term_matrix, [term1, term4, term5]
-    NaiveBayes.evidence(document_term_matrix, [1,4,5])
+    #NaiveBayes.evidence(document_term_matrix, [1,4,5])
     # P('t1, ..., tn' | c3) (document_term_matrix, [term1, term4, term5], 'class name', smoothing parameter x, smoothing parameter y)
-    NaiveBayes.class_conditional_probability(document_term_matrix, [1,4,5], 'c3', 1, 3)
+    #NaiveBayes.class_conditional_probability(document_term_matrix, [1,4,5], 'c3', 1, 3)
     # P(c3 | 't1, ..., tn') (document_term_matrix, [term1, term4, term5], 'class name', smoothing parameter x, smoothing parameter y)
-    NaiveBayes.prob_new_doc(document_term_matrix, [1, 4, 5], 'c3', 1, 3)
+    #NaiveBayes.prob_new_doc(document_term_matrix, [1, 4, 5], 'c3', 1, 3)
 
-def rocchio_feedback():
     # region Rocchio Feedback
     # Vocab
     VOCAB = ['news', 'about', 'presidental', 'campaign', 'food', 'text']
@@ -106,7 +103,7 @@ def rocchio_feedback():
     # Query vector
     Q = [1, 1, 1, 1, 0, 0]
 
-    # docuement term matrix
+    # docuement term matrix (each line corresponds to one document)
     DT_MATRIX = [
         [1.5, 0.1, 0, 0, 0, 0],
         [1.5, 0.1, 0, 2, 2, 0],
@@ -130,10 +127,7 @@ def rocchio_feedback():
     # parameter gamma
     gamma = 0.2
     # endregion
-
-    RocchioFeedback.rocchio_feedback(VOCAB, DT_MATRIX, Q, D_POS, D_NEG, alpha, beta, gamma)
+    #RocchioFeedback.rocchio_feedback(VOCAB, DT_MATRIX, Q, D_POS, D_NEG, alpha, beta, gamma)
 
 if __name__ == "__main__":
-    #main()
-    #naiveBayes()
-    rocchio_feedback()
+    main()
