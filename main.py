@@ -5,6 +5,7 @@ import Retrieval
 import PageRanker
 import Similarity
 import NaiveBayes
+import RocchioFeedback
 
 
 def main():
@@ -88,15 +89,51 @@ def naiveBayes():
     document_term_matrix['doc6'] = ['c1', 0, 1, 1, 0, 3, 4, 1]
     # endregion
 
-    # P(c3)
+    # P(c3) (document_term_matrix, 'class name')
     NaiveBayes.prior_prob(document_term_matrix, 'c3')
-    # P('t1, ..., tn')
+    # P('t1, ..., tn') (document_term_matrix, [term1, term4, term5]
     NaiveBayes.evidence(document_term_matrix, [1,4,5])
-    # P('t1, ..., tn' | c3)
+    # P('t1, ..., tn' | c3) (document_term_matrix, [term1, term4, term5], 'class name', smoothing parameter x, smoothing parameter y)
     NaiveBayes.class_conditional_probability(document_term_matrix, [1,4,5], 'c3', 1, 3)
-    # P(c3 | 't1, ..., tn')
+    # P(c3 | 't1, ..., tn') (document_term_matrix, [term1, term4, term5], 'class name', smoothing parameter x, smoothing parameter y)
     NaiveBayes.prob_new_doc(document_term_matrix, [1, 4, 5], 'c3', 1, 3)
 
+def rocchio_feedback():
+    # region Rocchio Feedback
+    # Vocab
+    VOCAB = ['news', 'about', 'presidental', 'campaign', 'food', 'text']
+
+    # Query vector
+    Q = [1, 1, 1, 1, 0, 0]
+
+    # docuement term matrix
+    DT_MATRIX = [
+        [1.5, 0.1, 0, 0, 0, 0],
+        [1.5, 0.1, 0, 2, 2, 0],
+        [1.5, 0, 3, 2, 0, 0],
+        [1.5, 0, 4, 2, 0, 0],
+        [1.5, 0, 0, 6, 2, 0]
+    ]
+
+    # set of relevant documents
+    D_POS = [2,3]
+
+    # set of non-relevant documents
+    D_NEG = [0,1,4]
+
+    # parameter alpha
+    alpha = 0.6
+
+    # parameter beta
+    beta = 0.2
+
+    # parameter gamma
+    gamma = 0.2
+    # endregion
+
+    RocchioFeedback.rocchio_feedback(VOCAB, DT_MATRIX, Q, D_POS, D_NEG, alpha, beta, gamma)
+
 if __name__ == "__main__":
-    main()
-    naiveBayes()
+    #main()
+    #naiveBayes()
+    rocchio_feedback()
