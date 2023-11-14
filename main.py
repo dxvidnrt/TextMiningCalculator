@@ -3,6 +3,7 @@ import InvertedIndex
 import Retrieval
 import PageRanker
 import Similarity
+import NaiveBayes
 
 
 def main():
@@ -69,5 +70,27 @@ def main():
     PageRanker.pagerank(graph_edges, q=0.4, iterations=3)
 
 
+def naiveBayes():
+    # region Naive Byes
+    document_term_matrix = {}
+    # document_term_matrix[' document name '] = [' class name as str ' , frequency of term 1, ..., frequency of term n]
+    document_term_matrix['doc1'] = ['c1', 2, 0, 1, 2, 0, 2, 4]
+    document_term_matrix['doc2'] = ['c3', 0, 0, 0, 0, 3, 2, 2]
+    document_term_matrix['doc3'] = ['c2', 3, 4, 0, 2, 0, 0, 2]
+    document_term_matrix['doc4'] = ['c3', 4, 0, 3, 1, 1, 1, 0]
+    document_term_matrix['doc5'] = ['c2', 1, 0, 0, 3, 1, 2, 0]
+    document_term_matrix['doc6'] = ['c1', 0, 1, 1, 0, 3, 4, 1]
+    # endregion
+
+    # P(c3)
+    NaiveBayes.prior_prob(document_term_matrix, 'c3')
+    # P('t1, ..., tn')
+    NaiveBayes.evidence(document_term_matrix, [1,4,5])
+    # P('t1, ..., tn' | c3)
+    NaiveBayes.class_conditional_probability(document_term_matrix, [1,4,5], 'c3', 1, 3)
+    # P(c3 | 't1, ..., tn')
+    NaiveBayes.prob_new_doc(document_term_matrix, [1, 4, 5], 'c3', 1, 3)
+
 if __name__ == "__main__":
     main()
+    naiveBayes()
