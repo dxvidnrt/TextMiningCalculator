@@ -8,6 +8,7 @@ import NaiveBayes
 import RocchioFeedback
 import DiscountedCumulativeGain
 import EvaluationMeasures
+import StatisticalSignificanceTesting
 
 def main():
     # region Classification Evolution
@@ -162,35 +163,38 @@ def main():
     ranking_A_q2 = [1,2,4,5,3,9,8,6,10,7]
     ranking_A_q3 = [1,7,4,5,3,6,9,8,10,2]
 
-
-    ranking_B_q1 = [2,4,3,10,5,6,7,8,9,1]
-    ranking_B_q2 = [5,6,4,1,7,8,9,10,3,2]
-    ranking_B_q3 = [2,4,3,7,5,6,1,8,9,10]
-
-
     ground_truth_1 = [1,3]
     ground_truth_2 = [2,4,5,6]
     ground_truth_3 = [7]
 
-    EvaluationMeasures.precision(ranking_A_q3, ground_truth_3, 5)
-    EvaluationMeasures.precision(ranking_A_q3, ground_truth_3, 10)
+    # endregion
 
-    EvaluationMeasures.average_precision(ranking_A_q3, ground_truth_3)
+    #EvaluationMeasures.precision(ranking_A_q3, ground_truth_3, 5)
+    #EvaluationMeasures.precision(ranking_A_q3, ground_truth_3, 10)
 
-    EvaluationMeasures.reciprocal_rank(ranking_A_q3, ground_truth_3)
+    #EvaluationMeasures.average_precision(ranking_A_q3, ground_truth_3)
 
-    EvaluationMeasures.mean_calculation([EvaluationMeasures._precision(ranking_A_q1, ground_truth_1, 5),
-                                       EvaluationMeasures._precision(ranking_A_q2, ground_truth_2, 5),
-                                       EvaluationMeasures._precision(ranking_A_q3, ground_truth_3, 5)])
+    #EvaluationMeasures.reciprocal_rank(ranking_A_q3, ground_truth_3)
 
-    EvaluationMeasures.mean_calculation([EvaluationMeasures._average_precision(ranking_A_q1, ground_truth_1),
-                                         EvaluationMeasures._average_precision(ranking_A_q2, ground_truth_2),
-                                         EvaluationMeasures._average_precision(ranking_A_q3, ground_truth_3)])
+    #EvaluationMeasures.mean_calculation([EvaluationMeasures._precision(ranking_A_q1, ground_truth_1, 5),
+     #                                  EvaluationMeasures._precision(ranking_A_q2, ground_truth_2, 5),
+     #                                 EvaluationMeasures._precision(ranking_A_q3, ground_truth_3, 5)])
 
-    EvaluationMeasures.mean_calculation([EvaluationMeasures._reciprocal_rank(ranking_A_q1, ground_truth_1),
-                                         EvaluationMeasures._reciprocal_rank(ranking_A_q2, ground_truth_2),
-                                         EvaluationMeasures._reciprocal_rank(ranking_A_q3, ground_truth_3)])
+    #EvaluationMeasures.mean_calculation([EvaluationMeasures._average_precision(ranking_A_q1, ground_truth_1),
+     #                                    EvaluationMeasures._average_precision(ranking_A_q2, ground_truth_2),
+     #                                    EvaluationMeasures._average_precision(ranking_A_q3, ground_truth_3)])
 
+    #EvaluationMeasures.mean_calculation([EvaluationMeasures._reciprocal_rank(ranking_A_q1, ground_truth_1),
+     #                                    EvaluationMeasures._reciprocal_rank(ranking_A_q2, ground_truth_2),
+     #                                    EvaluationMeasures._reciprocal_rank(ranking_A_q3, ground_truth_3)])
+
+    #region Statistical Significance Testing
+    system_A = [0.2215, 0.3924, 0.654, 0.5611, 0.9186, 0.1104, 0.6086, 0.5062, 0.9688, 0.995]
+    system_B = [0.0765, 0.0426, 0.5738, 0.1571, 0.9881, 0.7164, 0.7507, 0.435, 0.3959, 0.8709]
+    n = len(system_A)
+    #endregion
+    StatisticalSignificanceTesting.t_stat(system_A, system_B, n)
+    StatisticalSignificanceTesting.p_value(n, StatisticalSignificanceTesting._t_stat(system_A, system_B, n))
 
 if __name__ == "__main__":
     main()
