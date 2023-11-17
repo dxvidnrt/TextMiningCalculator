@@ -9,6 +9,9 @@ import RocchioFeedback
 import DiscountedCumulativeGain
 import EvaluationMeasures
 import StatisticalSignificanceTesting
+import KmeansClustering
+
+import numpy as np
 
 def main():
     # region Classification Evolution
@@ -193,8 +196,23 @@ def main():
     system_B = [0.0765, 0.0426, 0.5738, 0.1571, 0.9881, 0.7164, 0.7507, 0.435, 0.3959, 0.8709]
     n = len(system_A)
     #endregion
-    StatisticalSignificanceTesting.t_stat(system_A, system_B, n)
-    StatisticalSignificanceTesting.p_value(n, StatisticalSignificanceTesting._t_stat(system_A, system_B, n))
+  #  StatisticalSignificanceTesting.t_stat(system_A, system_B, n)
+   # StatisticalSignificanceTesting.p_value(n, StatisticalSignificanceTesting._t_stat(system_A, system_B, n))
 
+    #region K-means Clustering
+
+    # points
+    p1 = np.array([3,1,0,4])
+    p3 = np.array([1,3,4.5,5])
+    p5 = np.array([6,3,2,0])
+
+    # centroids
+    c1 = np.array([3,5,4,4.5])
+    c2 = np.array([1.5,2.5,1,2])
+    c3 = np.array([2,3.5,1,0])
+
+    # ACHTUNG, wenn minimale Distanz über 100
+    KmeansClustering.k_means_clustering(3, p1,p3,p5, c1,c2,c3)
+    #endregion
 if __name__ == "__main__":
     main()
