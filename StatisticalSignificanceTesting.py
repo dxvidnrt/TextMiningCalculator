@@ -34,6 +34,7 @@ def _t_stat(a: List[float], b: List[float], n: int) -> float:
 
   return x_D / (s_D / np.sqrt(n))
 
+
 def p_value(n: int, t_stat_variable: float) -> float:
   """Computes the p-value.
 

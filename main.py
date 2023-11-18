@@ -9,6 +9,8 @@ import RocchioFeedback
 import DiscountedCumulativeGain
 import EvaluationMeasures
 import StatisticalSignificanceTesting
+import RetrievalModels.LanguageModels
+
 
 def main():
     # region Classification Evolution
@@ -129,11 +131,11 @@ def main():
     # parameter gamma
     gamma = 0.2
     # endregion
-    #RocchioFeedback.rocchio_feedback(VOCAB, DT_MATRIX, Q, D_POS, D_NEG, alpha, beta, gamma)
+    # RocchioFeedback.rocchio_feedback(VOCAB, DT_MATRIX, Q, D_POS, D_NEG, alpha, beta, gamma)
 
-    #region Discounted Cumulative Gain
+    # region Discounted Cumulative Gain
     # Relevances: List with the ground truth relevance levels corresponding to a ranked list of documents (rel_i)
-    relevances = [4, 1, 3]
+    relevances = [0, 3, 0, 0, 2, 3, 1, 0, 0, 0]
 
     # Rank cut-off
     k = 5
@@ -155,10 +157,10 @@ def main():
     }
 
     # endregion
-    #DiscountedCumulativeGain.dcg(relevances, k)
-    #DiscountedCumulativeGain.ndcg(system_rankings['q3'], ground_truth['q3'], k)
+    # DiscountedCumulativeGain.dcg(relevances, 5)
+    # DiscountedCumulativeGain.ndcg(system_rankings['q3'], ground_truth['q3'], k)
 
-    #region Evaluation Measure
+    # region Evaluation Measure
     ranking_A_q1 = [1,2,4,5,3,6,9,8,10,7]
     ranking_A_q2 = [1,2,4,5,3,9,8,6,10,7]
     ranking_A_q3 = [1,7,4,5,3,6,9,8,10,2]
@@ -195,6 +197,22 @@ def main():
     #endregion
     StatisticalSignificanceTesting.t_stat(system_A, system_B, n)
     StatisticalSignificanceTesting.p_value(n, StatisticalSignificanceTesting._t_stat(system_A, system_B, n))
+
+    # region Language Models
+    document_term_matrix = [
+        [1, 0, 2, 4, 1],
+        [1, 2, 0, 0, 2],
+        [2, 0, 1, 1, 1],
+        [1, 1, 0, 2, 0]
+    ]
+    term_names = ["term1", "term2", "term3", "term4", "term5"]
+    document_names = ["doc1", "doc2", "doc3", "doc4"]
+    smoothing = 6
+    # endregion
+    #RetrievalModels.LanguageModels.dirichlet_smoothing(smoothing, "term1 term3 term5", "doc1 doc2 doc3 doc4", document_term_matrix, document_names, term_names)
+    #RetrievalModels.LanguageModels.empirical_language_model("term1 term3 term5", "doc4", document_term_matrix, document_names, term_names)
+    #RetrievalModels.LanguageModels.background_language_model("term4 term2", document_term_matrix, document_names, term_names)
+
 
 if __name__ == "__main__":
     main()

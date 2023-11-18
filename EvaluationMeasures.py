@@ -40,6 +40,7 @@ def _reciprocal_rank(ranking: List[int], ground_truth: List[int]):
 def precision(ranking: List[int], ground_truth: List[int], k:int):
   print("The precision at ", k, " is: ", _precision(ranking, ground_truth, k))
 
+
 def _precision(ranking: List[int], ground_truth: List[int], k:int):
 
   temp_result = 0
@@ -50,8 +51,10 @@ def _precision(ranking: List[int], ground_truth: List[int], k:int):
 
   return temp_result/k
 
+
 def average_precision(ranking: List[int], ground_truth: List[int]):
   print('The average precision is: ', _average_precision(ranking, ground_truth))
+
 
 def _average_precision(ranking: List[int], ground_truth: List[int]):
   temp_result = 0
@@ -61,6 +64,7 @@ def _average_precision(ranking: List[int], ground_truth: List[int]):
       temp_result += _precision(ranking, ground_truth, i+1)
 
   return temp_result / len(ground_truth)
+
 
 def mean_calculation(*precisions):
   temp_result = 0
