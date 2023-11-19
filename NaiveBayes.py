@@ -1,4 +1,4 @@
-from typing import List, Tuple, Dict
+from typing import List
 
 def prior_prob(document_term_matrix, y: str):
   """Computes the class prior probability, P(y).
@@ -15,8 +15,6 @@ def prior_prob(document_term_matrix, y: str):
 
 def evidence(document_term_matrix, terms: List[int]):
   """ Computes the evidence for a term (same for all classes)
-
-  x documents out of y contain 't1, ..., tn' -> P('t1, ..., tn') = x/y
   Args:
     document_term_matrix: document term matrix
     terms: List of terms (in the list the term number is given (t1 -> 1)
@@ -56,7 +54,8 @@ def term_prob(document_term_matrix, term: int, y: str, smoothing_x: int, smoothi
 
   """
   all_same_length = len(set(map(len, document_term_matrix.values()))) == 1 if document_term_matrix else True
-  print('' if all_same_length else "document term matrix is incorrect, not all term frequencies are defined")
+  if not all_same_length:
+    print("document term matrix is incorrect, not all term frequencies are defined")
 
   numerator = 0
   denominator = 0
@@ -64,20 +63,20 @@ def term_prob(document_term_matrix, term: int, y: str, smoothing_x: int, smoothi
   for element in document_term_matrix:
 
     if document_term_matrix[element][0] == y:
-      # count number of times term appears in class y (do not consider term frequencies)
       if document_term_matrix[element][term] > 0:
-        numerator += 1
+        numerator += document_term_matrix[element][term]
 
       # count total number of terms in class y (do consider term frequencies)
       for i in range(1, len(document_term_matrix[element])):
         temp = document_term_matrix[element][i]
         denominator += document_term_matrix[element][i]
 
+
   # apply smoothing
   return ((numerator + smoothing_x)/(denominator + smoothing_y))
 
 def prob_new_doc(document_term_matrix, terms: List[int], y: str, smoothing_x: int, smoothing_y: int):
-  """ Calculation of P(y | 't1, ..., tn')
+  """ Calculation of P(y | 't1, ..., tn') (ignore P(x) in the calculation, since it is the same for all classes)
   Args:
     document_term_matrix: document term matrix
     terms: List of terms to be considered
@@ -89,9 +88,10 @@ def prob_new_doc(document_term_matrix, terms: List[int], y: str, smoothing_x: in
 
   """
   all_same_length = len(set(map(len, document_term_matrix.values()))) == 1 if document_term_matrix else True
-  print('' if all_same_length else "document term matrix is incorrect, not all term frequencies are defined")
+  if not all_same_length:
+    print("document term matrix is incorrect, not all term frequencies are defined")
 
-  print('porbability of a new document: ', (_class_con_probability(document_term_matrix, terms, y, smoothing_x, smoothing_y) * _prior_prob(document_term_matrix, y))/_evidence(document_term_matrix, terms))
+  print('porbability of a new document: ', (_class_con_probability(document_term_matrix, terms, y, smoothing_x, smoothing_y) * _prior_prob(document_term_matrix, y)))
 
 def _class_con_probability(document_term_matrix, terms: List[int], y: str, smoothing_x: int, smoothing_y: int):
   """ Calculates the class conditional probability for the given list of terms and given class
@@ -139,7 +139,6 @@ def _prior_prob(document_term_matrix, y: str):
 def _evidence(document_term_matrix, terms: List[int]):
   """ Private Version: Computes the evidence for a term (same for all classes)
 
-  x documents out of y contain 't1, ..., tn' -> P('t1, ..., tn') = x/y
   Args:
     document_term_matrix: document term matrix
     terms: List of terms (in the list the term number is given (t1 -> 1)
@@ -154,3 +153,11 @@ def _evidence(document_term_matrix, terms: List[int]):
       temp_result += 1
 
   return temp_result / len(document_term_matrix)
+
+  """
+  class_list = []
+  for element in document_term_matrix:
+    if document_term_matrix[element][0] not in class_list:
+      class_list.append(document_term_matrix[element][0])
+
+  return 1/len(class_list)"""
