@@ -2,11 +2,15 @@ from typing import List
 import math
 
 
-def jaccard(x: List[int], y: List[int]) -> str:
-    """Computes the Jaccard similarity between two term vectors."""
-    intersection = sum([x_i > 0 and y_i > 0 for x_i, y_i in zip(x, y)])
-    union = sum([x_i > 0 or y_i > 0 for x_i, y_i in zip(x, y)])
-    print(f"The Jaccard Similarity is: {float(intersection) / union}")
+def jaccard(x: str, y: str) -> str:
+    """Computes the Jaccard similarity between two terms.
+    Testes on old exam."""
+    set1, set2 = set(x.split()), set(y.split())
+    res = len(set1.intersection(set2))/len(set1.union(set2))
+    print(f"Jaccard Similarity of {x} and {y} is {res}")
+    return res
+
+
 
 def cosine(x: List[float], y: List[float]) -> float:
     """Computes the Cosine similarity between two term vectors."""

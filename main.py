@@ -65,10 +65,10 @@ def main():
     # Retrieval.count_unordered_bigrams(term_1, term_2, doc)
 
     # region Similarity
-    term_vector_1 = [1, 1, 0, 2]
-    term_vector_2 = [1, 1, 2, 0]
+    term_1 = "we love working with data"
+    term_2 = "loads of data is generated nowadays"
     # endregion
-    # Similarity.jaccard(term_vector_1, term_vector_2)
+    Similarity.jaccard(term_1, term_2)
     # Similarity.cosine(term_vector_1, term_vector_2)
 
     # region PageRanker
